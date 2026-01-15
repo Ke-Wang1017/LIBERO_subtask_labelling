@@ -3,7 +3,12 @@ import os
 import robosuite.utils.transform_utils as T
 
 from copy import deepcopy
-from robosuite.environments.manipulation.single_arm_env import SingleArmEnv
+try:
+    from robosuite.environments.manipulation.single_arm_env import SingleArmEnv
+except ImportError:
+    from robosuite.environments.manipulation.manipulation_env import (
+        ManipulationEnv as SingleArmEnv,
+    )
 from robosuite.models.tasks import ManipulationTask
 from robosuite.utils.placement_samplers import SequentialCompositeSampler
 from robosuite.utils.observables import Observable, sensor
@@ -47,6 +52,7 @@ class BDDLBaseDomain(SingleArmEnv):
         controller_configs=None,
         gripper_types="default",
         initialization_noise="default",
+        mount_types=None,
         use_latch=False,
         use_camera_obs=True,
         use_object_obs=True,
@@ -77,6 +83,8 @@ class BDDLBaseDomain(SingleArmEnv):
         scene_properties={},
         **kwargs,
     ):
+        if "mount_types" in kwargs:
+            kwargs.pop("mount_types", None)
         t0 = time.time()
         # settings for table top (hardcoded since it's not an essential part of the environment)
         self.workspace_offset = workspace_offset
@@ -132,11 +140,12 @@ class BDDLBaseDomain(SingleArmEnv):
         self._arena_xml = os.path.join(self.custom_asset_dir, scene_xml)
         self._arena_properties = scene_properties
 
+        base_types = mount_types if mount_types is not None else "default"
         super().__init__(
             robots=robots,
             env_configuration=env_configuration,
             controller_configs=controller_configs,
-            mount_types="default",
+            base_types=base_types,
             gripper_types=gripper_types,
             initialization_noise=initialization_noise,
             use_camera_obs=use_camera_obs,
@@ -839,7 +848,11 @@ class BDDLBaseDomain(SingleArmEnv):
 
     @property
     def language_instruction(self):
-        return self.parsed_problem["language"]
+        if "language" in self.parsed_problem:
+            return self.parsed_problem["language"]
+        if "language_instruction" in self.parsed_problem:
+            return self.parsed_problem["language_instruction"]
+        return ""
 
     def get_object(self, object_name):
         for query_dict in [
