@@ -86,6 +86,15 @@ python benchmark_scripts/download_libero_datasets.py --datasets DATASET --use-hu
 
 The datasets hosted on HuggingFace are available at [here](https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets).
 
+# Subtask Labelling
+To do subtask labelling with Libero-10 and save to the original data file, you can run the script:
+```python
+python scripts/label_subtask.py --dataset-dir DATASET_PATH --max-demos -1 --save-to-hdf5 True
+```
+You can also verify if the subtask label is saved by running the script:
+```python
+scripts/check_subtask_labels.py --dataset-dir DATASET_PATH --max-demos -1 --verbose
+```
 
 # Getting Started
 

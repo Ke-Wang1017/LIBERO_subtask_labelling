@@ -11,8 +11,8 @@ from libero.libero.envs import TASK_MAPPING
 import label_subtask_utils as utils
 
 # --- CONFIGURATION ---
-DATASET_PATH = "/home/ke/Documents/LIBERO/libero/datasets/libero_10/KITCHEN_SCENE3_turn_on_the_stove_and_put_the_moka_pot_on_it_demo.hdf5"
-
+# get the path to the of the dataset directory
+DATASET_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "libero", "datasets", "libero_10")
 
 def build_env(problem_name, task_bddl_path, data_group):
     env_kwargs = utils.load_env_kwargs(data_group)
@@ -234,6 +234,7 @@ def replay_directory(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    breakpoint()
     parser.add_argument("--dataset", default=DATASET_PATH, help="Path to HDF5 dataset.")
     parser.add_argument(
         "--dataset-dir",
