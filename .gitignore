@@ -16,3 +16,4 @@ logs/
 *.mp4
 libero.egg-info/
 .vscode/
+lerobot_exports/
