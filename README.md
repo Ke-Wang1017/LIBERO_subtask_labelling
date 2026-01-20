@@ -98,7 +98,11 @@ You can also verify if the subtask label is saved by running the script:
 ```python
 scripts/check_subtask_labels.py --dataset-dir DATASET_PATH --max-demos -1 --verbose
 ```
+To convert to lerobot format, run this script 
+```python
+python scripts/libero_batch_convert_merge.py --input-dir DATASET_DIR --output-root DATASET_OUTPUT_DIR --repo-prefix REPO_NAME --fps 10
 
+```
 # Getting Started
 
 For a detailed walk-through, please either refer to the documentation or the notebook examples provided under the `notebooks` folder. In the following, we provide example scripts for retrieving a task, training and evaluation.

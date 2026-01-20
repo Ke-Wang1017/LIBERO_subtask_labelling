@@ -136,6 +136,7 @@ def create_features(states: np.ndarray, actions: np.ndarray, agentview: np.ndarr
             "names": ["channel", "height", "width"],
         },
         "subtask": {"dtype": "string", "shape": (1,)},
+        "overall_task": {"dtype": "string", "shape": (1,)},
     }
 
 
@@ -192,6 +193,7 @@ def convert_all(hdf5_files: list[Path], output_root: Path, repo_id: str, fps: fl
                         "images.agentview_rgb": d["agentview"][i],
                         "images.wrist_rgb": d["eye_in_hand"][i],
                         "subtask": subtask_txt,
+                        "overall_task": task_text,
                         "task": task_text,
                     }
                     dataset.add_frame(frame)
